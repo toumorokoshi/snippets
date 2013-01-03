@@ -1,3 +1,7 @@
+"""
+A server for validating json requests. In the future, possibly add some 
+customization to validate multiple request types?
+"""
 import json
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
