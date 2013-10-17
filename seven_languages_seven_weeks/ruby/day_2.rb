@@ -16,7 +16,7 @@ h.to_a
 
 # array to hash
 a = h.to_a
-a.inject(Hash.new) { |hash, i| hash[i[0]] = i[1]; hash }
+puts a.inject(Hash.new) { |hash, i| hash[i[0]] = i[1]; hash }
 
 # can you iterate through a hash?
 # yes, creates an array of key-value pairs
