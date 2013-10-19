@@ -2,7 +2,7 @@
 
 1 + 1
 
-1 + "one" breaks
+// 1 + "one" breaks
 
 // 0 is true
 x := if(0, 1, 0)
@@ -18,13 +18,13 @@ ferrari := Car clone
 (ferrari proto) slotNames
 
 // An equals (=) is a direct assignment, and doesn't allow slot creation
-Car koko = "yes"
+// Car koko = "yes"
 
 // colon equals (:=) is assignment + creation of slot if it doesn't exist.
 Car koko := "yes"
 
 // double-colon equals (::=) creates a setter along with the slot
 Car koko := "yes"
-Car setKoko("no")
+// Car setKoko("no")
 Car koko ::= "yes"
 Car setKoko("no")
