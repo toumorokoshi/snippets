@@ -18,3 +18,12 @@ min([], R, R).
 min([H|T], M, R) :- min(T, M, R), M < H.
 min([H|T], M, R) :- min(T, H, R), H =< M.
 min([H|T], R) :- min(T, H, R).
+
+% insert
+
+insert(X, [], [X]).
+insert(X, [H|T], [X,H|T]) :- X < H.
+insert(X, [H|T], [H|R]) :- insert(X, T, R).
+
+mysort([X], [X]).
+mysort([H|T], R) :- insert(H, R2, R), R2 is mysort(T, X).
