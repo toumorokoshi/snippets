@@ -26,4 +26,4 @@ insert(X, [H|T], [X,H|T]) :- X < H.
 insert(X, [H|T], [H|R]) :- insert(X, T, R).
 
 mysort([X], [X]).
-mysort([H|T], R) :- insert(H, R2, R), R2 is mysort(T, X).
+mysort([H|T], R) :- mysort(T, R2), insert(H, R2, R).
