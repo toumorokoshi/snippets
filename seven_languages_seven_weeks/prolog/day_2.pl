@@ -27,3 +27,17 @@ insert(X, [H|T], [H|R]) :- insert(X, T, R).
 
 mysort([X], [X]).
 mysort([H|T], R) :- mysort(T, R2), insert(H, R2, R).
+
+% fibonacci
+
+fib(1, 1, 0).
+fib(X, N1, N2) :- X > 1, 
+                  X1 is X - 1,
+                  fib(X1, N2, N3),
+                  N1 is N2 + N3.
+fib(X, R) :- fib(X, R, _).
+
+% factorial
+
+fact(0, 1).
+fact(X, N1) :- X > 0, X1 is X - 1, fact(X1, N2), N1 is X * N2.
