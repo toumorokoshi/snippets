@@ -22,25 +22,6 @@ translate_monitor() ->
                                    translate_monitor()
     end.
 
-% challenge two: monitoring translator + self
-
-monitor_loop() ->
-    process_flag(trap_exit, true),
-    receive
-        {monitor, Process} ->
-            link(Process),
-            io:format("Monitoring Process.~n"),
-            monitor_loop();
-        die -> exit({});
-        isAlive -> io:format("I'm alive!~n");
-        {'EXIT', _, _} ->
-            io:format("Restarting monitor..."),
-            register(monitor, spawn(fun monitor_loop/0)),
-            monitor ! {monitor, monitor}
-    end.
-
-start_monitor() ->
-    Monitor = spawn(fun monitor_loop/0),
-    register(monitor, Monitor),
-    monitor ! {monitor, Monitor},
-    Monitor.
+% I'm skipping challenge 2 + 3, because it sounds like this is a bad pattern for Erlang. If a process dies,
+% it's very difficult to catch it, and the Erlang community believes that using a supervisor process is a better
+% idea.
