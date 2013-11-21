@@ -15,3 +15,21 @@ module Day1 where
        colorCombinations = [(c1, c2) | c1 <- colors, c2 <- colors, c1 < c2]
 -- multiplication table
        multiplication = [(n1, n2, n1 * n2) | n1 <- [1..12], n2 <- [1..12], n1 <= n2]
+       -- map coloring problem
+       states = take 1 [(("Tennessee", tennessee),
+                         ("Mississippi", mississippi),
+                         ("Alabama", alabama),
+                         ("Georgia", georgia),
+                         ("Florida", florida))
+                       | tennessee <- colors,
+                         mississippi <- colors,
+                         alabama <- colors,
+                         georgia <- colors,
+                         florida <- colors,
+                         tennessee /= mississippi,
+                         tennessee /= alabama,
+                         tennessee /= georgia,
+                         mississippi /= alabama,
+                         alabama /= georgia,
+                         alabama /= florida,
+                         georgia /= florida]
