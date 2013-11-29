@@ -18,3 +18,15 @@ module Day2 where
     fifth x = x:(fifth (x + 5))
     eighth x y = zipWith (+) (third x) (fifth y)
     newline s = s ++ "\n"
+-- the harder problems
+-- x > y
+    myGcd :: Integral a => a -> a -> a
+    myGcd x 0 = x
+    myGcd x y =
+        let larger = max x y
+            smaller = min x y
+        in
+          myGcd smaller (rem larger smaller)
+    myPrime :: [Integer]
+    myPrime = sieve [2..]
+        where sieve (p:xs) = p : sieve [ x | x <- xs, x `mod` p > 0]
