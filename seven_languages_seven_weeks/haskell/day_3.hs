@@ -14,8 +14,8 @@ module Day3 where
     deepExample = [("a", [("a1", "value")]),
                    ("b", [("b1", "valueb1")])]
 --    data Node = NodePath ((Int, Int), [Node]) | TerminalNode (Int, Int)
-    data Exits = North | West | East | South deriving Show
-    data Node = NodePath (Int, Int) [Exits] | TerminalNode (Int, Int) deriving Show
+    data Exits = North | West | East | South deriving (Show, Eq)
+    data Node = NodePath (Int, Int) [Exits] | TerminalNode (Int, Int) deriving (Show, Eq)
     type Maze = [[Node]]
     maze :: Maze
     maze = [
@@ -44,52 +44,35 @@ module Day3 where
             West -> getNode maze (x - 1, y)
             East -> getNode maze (x + 1, y)
             South -> getNode maze (x, y + 1)
+    mazeStart = getNode maze (0, 0)
 -- nextPaths
     nextPaths :: Maze -> [Node] -> [[Node]]
---    nextPaths maze node path = map (++ path) (map (getNextNode node maze) (getExits node))
+-- nextPaths maze node path = map (++ path) (map (getNextNode node maze) (getExits node))
     nextPaths maze nodeList =
         let nodeHead = head nodeList
         in
           map (:nodeList) (map (getNextNode nodeHead maze) (getExits nodeHead))
--- solvePath
---     solvePath :: Node -> Exits -> [Node] -> Maybe [Node]
---     solvePath node path direction =
---         let (x, y) = getNextNode (getPosition node) direction
---         in
---           if elem nextNode path
---           then
---              Nothing
---           else
---               solveMaze maze (x, y) (path ++ nextNode)
--- -
--- solveMaze
---     solveMaze :: Maze -> (Int, Int) -> [Node] -> Maybe [Node]
---     solveMaze maze (start_x, start_y) path =
---         let current_node = getNode maze (start_x, start_y)
---         in
---           case current_node of
---             TerminalNode -> return path
---             NodePath ->
---                 let nextPaths = map  (getExits current_node)
---                 in
---                   if length paths > 0
---                   then
---                       take 1 nextpaths
---                   else
---                       Nothing
---         in
---           map (getExists current_node)
---           do direction <- getExits current_node;
---              let (x, y) = getNextNode (getPosition current_node) direction
---                  nextNode = getNode (x, y)
---              in
---                if elem nextNode path
---
 -- If the element already exists in the path, we're at a dead end.
-
--- solveMaze 2
-    solveMaze :: Maze -> Node -> [[Node]]
-    solveMaze maze node =
-        let pathMonad = (nextPaths maze)
+    solveRoute :: Maze -> Node -> [Node] -> Exits -> Maybe [Node]
+    solveRoute maze node path exit =
+        let nextNode = getNextNode node maze exit
         in
-          [node] >>= pathMonad
+          if (nextNode `elem` path)
+          then
+              Nothing
+          else
+              solveMaze maze node (nextNode:path)
+-- solveMaze 2
+    solveMaze :: Maze -> Node -> [Node] -> Maybe [Node]
+    solveMaze maze node path =
+        case node of
+          TerminalNode _ -> Just (node:path)
+          NodePath _ _->
+                   let nodes = (filter (\x -> x /= Nothing) (map (solveRoute maze node path) (getExits node)))
+                   in
+                     if (length nodes > 0)
+                     then
+                         head nodes
+                     else
+                         Nothing
+    mazeSolution = solveMaze maze mazeStart []
