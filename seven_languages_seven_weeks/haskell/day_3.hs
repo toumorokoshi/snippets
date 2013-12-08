@@ -25,7 +25,7 @@ module Day3 where
            ]
 -- getNode
     getNode :: Maze -> (Int, Int)-> Node
-    getNode maze (x,y) = maze !! x !! y
+    getNode maze (x,y) = maze !! y !! x
 -- getExists
     getExits :: Node -> [Exits]
     getExits (NodePath _ exits) = exits
@@ -44,7 +44,6 @@ module Day3 where
             West -> getNode maze (x - 1, y)
             East -> getNode maze (x + 1, y)
             South -> getNode maze (x, y + 1)
-    mazeStart = getNode maze (0, 0)
 -- nextPaths
     nextPaths :: Maze -> [Node] -> [[Node]]
 -- nextPaths maze node path = map (++ path) (map (getNextNode node maze) (getExits node))
@@ -61,7 +60,7 @@ module Day3 where
           then
               Nothing
           else
-              solveMaze maze node (nextNode:path)
+              solveMaze maze nextNode (node:path)
 -- solveMaze 2
     solveMaze :: Maze -> Node -> [Node] -> Maybe [Node]
     solveMaze maze node path =
@@ -75,4 +74,5 @@ module Day3 where
                          head nodes
                      else
                          Nothing
+    mazeStart = getNode maze (0, 0)
     mazeSolution = solveMaze maze mazeStart []
