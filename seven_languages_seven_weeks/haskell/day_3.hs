@@ -17,8 +17,8 @@ module Day3 where
     data Exits = North | West | East | South deriving (Show, Eq)
     data Node = NodePath (Int, Int) [Exits] | TerminalNode (Int, Int) deriving (Show, Eq)
     type Maze = [[Node]]
-    maze :: Maze
-    maze = [
+    testMaze :: Maze
+    testMaze = [
      [ (NodePath (0,0) [South]), (NodePath (1, 0) []), (NodePath (2, 0) []) ],
      [ (NodePath (0,1) [East]), (NodePath (1, 1) [East]), (NodePath (2, 1) [North, South]) ],
      [ (NodePath (0,2) []), (NodePath (1, 2) []), (TerminalNode (2, 2)) ]
@@ -44,13 +44,6 @@ module Day3 where
             West -> getNode maze (x - 1, y)
             East -> getNode maze (x + 1, y)
             South -> getNode maze (x, y + 1)
--- nextPaths
-    nextPaths :: Maze -> [Node] -> [[Node]]
--- nextPaths maze node path = map (++ path) (map (getNextNode node maze) (getExits node))
-    nextPaths maze nodeList =
-        let nodeHead = head nodeList
-        in
-          map (:nodeList) (map (getNextNode nodeHead maze) (getExits nodeHead))
 -- If the element already exists in the path, we're at a dead end.
     solveRoute :: Maze -> Node -> [Node] -> Exits -> Maybe [Node]
     solveRoute maze node path exit =
@@ -74,5 +67,5 @@ module Day3 where
                          head nodes
                      else
                          Nothing
-    mazeStart = getNode maze (0, 0)
-    mazeSolution = solveMaze maze mazeStart []
+    mazeStart = getNode testMaze (0, 0)
+    mazeSolution = solveMaze testMaze mazeStart []
