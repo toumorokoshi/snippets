@@ -1,0 +1,12 @@
+# this starts a systemd service that runs
+# runsvdir in the /opt/sv directory.
+# then, it's pretty easy to get a service
+# running under a supervised runsvdir instance:
+# just symlink into /opt/sv your service.
+[Unit]
+Description=Runs all services under /opt/sv/
+
+[Service]
+ExecStart=/usr/bin/runsvdir /opt/sv
+# we always restart the runsvdir instance.
+Restart=always
